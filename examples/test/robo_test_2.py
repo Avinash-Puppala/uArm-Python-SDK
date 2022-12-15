@@ -242,7 +242,7 @@ def pickup_position_one_envelope():
     #home position
     swift.set_position(x=250, y=0, z=150, speed=1000, wait=True)
     swift.set_wrist(50)
-    swift.set_position(x=293, y=-110, z=-52, speed=100, wait=True)
+    swift.set_position(x=293, y=-110, z=-60, speed=100, wait=True)
     time.sleep(0.5)
     swift.set_pump(True)
     time.sleep(0.5)
@@ -295,7 +295,7 @@ def pickup_position_two_envelope():
     #home position
     swift.set_position(x=250, y=0, z=150, speed=1000, wait=True)
     swift.set_wrist(94)
-    swift.set_position(x=260, y=150, z=-52, speed=1000, wait=True)
+    swift.set_position(x=260, y=150, z=-60, speed=1000, wait=True)
     time.sleep(0.5)
     swift.set_pump(True)
     time.sleep(0.5)
