@@ -419,18 +419,6 @@ elif sys.argv[1] == "pick1place1":
     time.sleep(1)
     place_position_one_envelope("1")
     exit()
-elif sys.argv[1] == "pick1place2":
-    stack = "one"
-    pickup_new_envelope_stack_two("1")
-    time.sleep(1)
-    place_position_two_envelope("1")
-    exit()
-elif sys.argv[1] == "pick2place1":
-    stack = "two"
-    pickup_new_envelope_stack_two("1")
-    time.sleep(1)
-    place_position_one_envelope("1")
-    exit()
 elif sys.argv[1] == "pick2place2":
     stack = "two"
     pickup_new_envelope_stack_two("1")
@@ -440,18 +428,6 @@ elif sys.argv[1] == "pick2place2":
 elif sys.argv[1] == "remove1drop1":
     stack = "one"
     pickup_position_one_envelope()
-    time.sleep(1)
-    drop_complete_from_home_envelope_stack_one()
-    exit()
-elif sys.argv[1] == "remove1drop2":
-    stack = "two"
-    pickup_position_one_envelope()
-    time.sleep(1)
-    drop_complete_from_home_envelope_stack_two()
-    exit()
-elif sys.argv[1] == "remove2drop1":
-    stack = "one"
-    pickup_position_two_envelope()
     time.sleep(1)
     drop_complete_from_home_envelope_stack_one()
     exit()
