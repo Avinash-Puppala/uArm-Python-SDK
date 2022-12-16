@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "envelopes-project",
+  "private_key_id": "c271f0e460b442a19f796c2690d0e3e0250ffdfa",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCbtY/caYyk76U0\nOiO8RtwGkluhf3JYuFPPPxFJmIfaqqRkFnPWE7Xm9IPHyWB56eRzLI0RWDcmpWlg\nwHUuRUUi8KXmZRekfxWz5Ibf4uETlz8J8++l1sQ/2DSHn1fL+92Pwdu51pVhMhxZ\n7GeRmK8M0NRu0XzuMjjm0eldgoxGTaHBv6PvOn7LXrxdzOK3kJOUA9d0ySElee+V\nJh//EUMprsfMPhzGq+/NHhNst5uC0DZ6H2XO/vNcPZyEjajQt8TPPee3ls9sBuf9\nfnTqlOr4fk+dz5Gkf+FbgBd2Z/LZKsGldquINr6SA+zc1cB6Q5rjvE6nI31QizOT\nqG6hTcGzAgMBAAECggEAQy5O55ZSrEcJTENZb75S6DL1ffRy7Xx6DIz1dH9u/hVp\n4BUf3Vmbvg35XZWxHmifvGGYa8dX5ECx+qCO7mvMrIqPyZwMW1jJkFglKSvGWKGE\n/VJWL4M+IR2zbGB/jO8aZRALMV84DDuGp/WrqdHqlOj0/us7r7nTeyNOQJ42z426\nPsv74OJ8rsUzEvflreiWKrp43+oElTaFbkTB4Egrhy3eK7GySlTLEjJ53uTyoaZd\nuqfKTKRiJtTiA+eUQU5zF28GxLrmvaBS6Ch5BWcsCAkWQebGCcWqUuIP7CVipnNL\npi0Xmgw1J1NiBoQNzhvAeU0fgFGNfKNzXYeLP6/EoQKBgQDZAhFW3syrUh41U3my\n92Nrz9qXh3h0ilaf4AraT75GBTGbtHV+O8CwNzR2LwM/8g1oGdRNf43Ie7VY1dPp\nblVPO+KM2GAe1Oh1iLb7adY9DHC8Pg/LGuu9U0b2oTyChGygF4x4Bx/llR2u8ZzE\ntDTon+kGMarIA/zXvGbgoBta7wKBgQC3r98Ffx18+20N+VA/TnqLgc96SHoZXW/F\nuSSKs0DGUdpgQ4gtApRt/Ebdp3Ygnvv1TCTz1qR+iiIhx1ZD2UnUcMC8SoB/6c4V\nF0dyImeIzzdYrfaIR6KEW4yTweRJzOJ4rErE4HrXzAqNgEMxbIVrkJXka+a/Yg8Z\n4qxqoU9VfQKBgQCgV87ICUfhLoPzkwJRIknr12EEpaxzL+RhrQFX3aQRyLSm/+fw\npeXyTlgNGx+jmA4f5TXhLWZtxDpysUwrJsMSEIWM3DPplBdPAP1zNvh9kzuZW6H/\nyJx2/5lnkitLpN0+TSgVZ+5BjLSqFwxmq2CModtkID64G3ovTZ4WSzbrMQKBgCAe\nvNz1MW7deGBtLD8ltgAXHvS/H7q3wAfPLDikx7rmLU2QAYv9W38wEiRIWDu0EVL/\nkaah7fnCpd1KQidzI5nmbY1/aaD0fXjqrS+kHH6r3X3ATc/e1uhWKerciNLu5Ns9\nJYXvywtZPq8nspg95ca9bbiXta3Zs9JO9N9gfcLxAoGBAIpd7RKCARk5PG7nlEV4\n7thtXaBBB2/WUwhUsX/vZ7KMYtqxknKoe7ExlbN/R1jQJG0SflU0yu+mTUgwkO9h\nhXC1ymthTGdxS+7gIhhYNjZl8DPU3dob4v29s5pMHAmQDMKsytv3pwZ6/F3d1Jiz\nIpDtqDPA/Xp7Vqb+GxqAib3H\n-----END PRIVATE KEY-----\n",
+  "client_email": "envelopes@envelopes-project.iam.gserviceaccount.com",
+  "client_id": "110678584843579942664",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/envelopes%40envelopes-project.iam.gserviceaccount.com"
+}
