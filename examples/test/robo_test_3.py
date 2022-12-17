@@ -211,15 +211,15 @@ def home():
 
 # Pickup an envelope from stack 1
 def pickup1():
-    # swift.set_position(x=6, y=-255, z=160, speed=100, wait=True)
-    swift.set_position(x=6,y=-250, speed=10000)
-    # swift.set_wrist(90)
-    # swift.set_pump(True)
-    # time.sleep(0.5)
-    # swift.set_position(x=6, y=-185, z=50, speed=100, wait=True)
-    # time.sleep(0.75)
-    # swift.set_position(x=6, y=-185, z=150, speed=100, wait=True)
-    # time.sleep(1)
+    swift.set_position(x=6, y=-215, z=150, speed=100, wait=True)
+    swift.set_position(x=6,y=-230, speed=10000)
+    swift.set_wrist(90)
+    swift.set_pump(True)
+    time.sleep(0.5)
+    swift.set_position(x=6, y=-185, z=40, speed=100, wait=True)
+    time.sleep(0.75)
+    swift.set_position(x=6, y=-185, z=170, speed=100, wait=True)
+    time.sleep(1)
     home()
 
 # Place an envelope that has already been picked up using pickup1 at plotter 1
@@ -257,7 +257,7 @@ def place2():
 def removedrop1():
     home()
     swift.set_wrist(54)
-    swift.set_position(x=293, y=-110, z=-80, speed=100, wait=True)
+    swift.set_position(x=293, y=-110, z=-70, speed=100, wait=True)
     time.sleep(0.5)
     swift.set_pump(True)
     time.sleep(0.5)
@@ -269,7 +269,7 @@ def removedrop1():
     swift.set_wrist(65)
 
     #drop off position
-    swift.set_position(x=50, y=-300, z=120, speed=1000, wait=True)
+    swift.set_position(x=50, y=-336, z=120, speed=1000, wait=True)
     time.sleep(0.5)
     swift.set_pump(False)
     time.sleep(0.5)
@@ -282,11 +282,11 @@ def removedrop1():
 def removedrop2():
     home()
     swift.set_wrist(94)
-    swift.set_position(x=260, y=150, z=-80, speed=1000, wait=True)
+    swift.set_position(x=260, y=150, z=-70, speed=1000, wait=True)
     time.sleep(0.5)
     swift.set_pump(True)
     time.sleep(0.5)
-    swift.set_position(x=260, y=150, z=-45, speed=1000, wait=True)
+    swift.set_position(x=260, y=140, z=-45, speed=1000, wait=True)
     swift.set_position(x=187, y=97, z=-35, speed=100, wait=True)
     swift.set_position(x=229, y=-30, z=-35, speed=100, wait=True)
     home()
@@ -295,7 +295,7 @@ def removedrop2():
     swift.set_wrist(115)
 
     #drop off position
-    swift.set_position(x=50, y=300, z=120, speed=1000, wait=True)
+    swift.set_position(x=50, y=336, z=120, speed=1000, wait=True)
     time.sleep(0.5)
     swift.set_pump(False)
     time.sleep(0.5)
@@ -330,43 +330,43 @@ def GoPlot(port, run):
 
 
 def continuous():
-    # for x in range(2):
+    for x in range(2):
         # Setting up plot 1
         # home position and clear
         home()
         # Pick up from stack 1
         pickup1()
-        # # Place at plotter 1
-        # place1()
+        # Place at plotter 1
+        place1()
         
-        # # Setting up plot 2 
-        # # home position and clear
-        # home()
-        # # Pick up from stack 1
-        # pickup2()
-        # # Place at plotter 1
-        # place2()
+        # Setting up plot 2 
+        # home position and clear
+        home()
+        # Pick up from stack 1
+        pickup2()
+        # Place at plotter 1
+        place2()
 
-        # # Begin AxiDraw plotting
-        # current_run = start_at
-        # for plotter in plotter_ports:
-        #     #print("Current Run: "+str(current_run)+ "; and template count is: "+ str(template_count))
-        #     if current_run > template_count:
-        #         current_run = 1
-        #     elif current_run != template_count:
-        #         current_run += 1
+        # Begin AxiDraw plotting
+        current_run = start_at
+        for plotter in plotter_ports:
+            #print("Current Run: "+str(current_run)+ "; and template count is: "+ str(template_count))
+            if current_run > template_count:
+                current_run = 1
+            elif current_run != template_count:
+                current_run += 1
 
-        #     threading.Thread(target = GoPlot, args= (plotter,current_run,)).start()
-        #     if current_run == template_count:
-        #         current_run += 1
+            threading.Thread(target = GoPlot, args= (plotter,current_run,)).start()
+            if current_run == template_count:
+                current_run += 1
 
         # Return to home and wait for AxiDraw to finish plotting
-        # home()
-        # time.sleep(5)
+        home()
+        time.sleep(90)
 
-        # # Remove envelopes and place into boxes
-        # removedrop1()
-        # removedrop2()
+        # Remove envelopes and place into boxes
+        removedrop1()
+        removedrop2()
 
         
         time.sleep(0.5)
