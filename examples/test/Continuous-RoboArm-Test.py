@@ -51,8 +51,8 @@ site = ""
 pod_dict = {
     "pod1": {
         "robot": "COM18",
-        "plotter1": "COM50",
-        "plotter2": "COM51",
+        "plotter1": "COM4",
+        "plotter2": "COM6",
         "type": "Envelope",
         "full": 600,
         "half": 100,
@@ -61,8 +61,8 @@ pod_dict = {
     },
     "pod2": {
         "robot": "COM18",
-        "plotter1": "COM22",
-        "plotter2": "COM26", 
+        "plotter1": "COM4",
+        "plotter2": "COM6", 
         "type": "Envelope",
         "full": 300,
         "half": 175,
@@ -79,6 +79,7 @@ print(commandList)
 count = 0
 testcommand = commandList[1]
 uport = pod_dict[commandList[2]]['robot']
+print(str(uport))
 current_count = 300
 
 # Connect to uarm robot and print device information
@@ -211,19 +212,22 @@ def home():
     swift.set_wrist(90)
 
 # Pickup an envelope from stack 1
-def pickup1(z_change):
-    swift.set_position(x=6, y=-215, z=150, speed=100, wait=True)
-    swift.set_position(x=6,y=-230, speed=10000)
-    swift.set_wrist(90)
-    swift.set_pump(True)
-    time.sleep(0.5)
-    
-    y_position = -245
+def pickup1(z_change, count):
     z_position = 60 - z_change
-
-    swift.set_position(x=6, y=y_position, z=z_position, speed=100, wait=True) # find the incremental z rate change
+    if count <= 25:
+        swift.set_position(x=6,y=-252,z=180, speed=100, wait=True)
+    if count > 25 and count <=100:
+        swift.set_position(x=6, y=-249, z=180, speed=100, wait=True)
+    # if count > 100 
+    swift.set_wrist(87)
+    swift.set_pump(True)
+    
+    time.sleep(1)
+    swift.set_position(z=z_position, speed=100, wait=True)
     time.sleep(0.75)
-    swift.set_position(x=6, y=y_position, z=180, speed=100, wait=True)
+    swift.set_position(z=180,speed=100)
+    time.sleep(0.5)
+    swift.set_position(x=100, y=-220, z= 180, speed=100)
     time.sleep(1)
     home()
 
@@ -238,17 +242,23 @@ def place1():
 
 # Pickup an envelope from stack 2
 def pickup2(z_change):
-    swift.set_position(x=6, y=215, z=150, speed=100, wait=True)
+    # swift.set_position(x=6, y=215, z=150, speed=100, wait=True)
+    # y_position = 255 - y_change
+    z_position = 60 - z_change
+    # y2_position = 255 - y2_change
+    swift.set_position(x=6, y=255,z=180, speed=100, wait=True)
     swift.set_wrist(90)
     swift.set_pump(True)
-    time.sleep(0.5)
-
-    y_position = 265
-    z_position = 60 - z_change
     
-    swift.set_position(x=6, y=y_position, z=z_position, speed=100, wait=True) # find the incremental z rate change
+    # swift.set_position(x=6, y=275,z=180, speed=100, wait=True)
+    time.sleep(1)
+    # swift.set_position(x=6, y=y_position, z=z_position, speed=100, wait=True) # find the incremental z rate change
+    swift.set_position(z=z_position, speed=100, wait=True)
     time.sleep(0.75)
-    swift.set_position(x=6, y=y_position, z=180, speed=100, wait=True)
+    # swift.set_position(x=6, y=265, z=180, speed=100, wait=True)
+    swift.set_position(z=180,speed=100)
+    time.sleep(0.5)
+    swift.set_position(x=100, y=245, z= 180, speed=100)
     time.sleep(1)
     home()
 
@@ -281,7 +291,9 @@ def removedrop1():
     swift.set_wrist(90)
 
     #drop off position
-    swift.set_position(x=50, y=-315, z=140, speed=1000, wait=True)
+    # swift.set_position(x=50, y=-315, z=140, speed=1000, wait=True)
+    swift.set_position(x=6, y=-255, z=180, speed=1000, wait=True)
+
     time.sleep(0.5)
     swift.set_pump(False)
     time.sleep(0.5)
@@ -310,13 +322,15 @@ def removedrop2():
     swift.set_wrist(110)
 
     #drop off position
-    swift.set_position(x=50, y=315, z=140, speed=1000, wait=True)
+    # swift.set_position(x=50, y=329, z=140, speed=1000, wait=True)
+    swift.set_position(x=6, y=-255, z=180, speed=1000, wait=True)
     time.sleep(0.5)
     swift.set_pump(False)
     time.sleep(0.5)
-    swift.set_position(x=50, y=180, z=180, speed=1000, wait=True)
-    swift.set_position(x=250, y=0, z=180, speed=1000, wait=True)
+    # swift.set_position(x=50, y=180, z=180, speed=1000, wait=True)
+    # swift.set_position(x=250, y=0, z=180, speed=1000, wait=True)
     swift.set_wrist(90)
+    home()
 
 # AxiDraw Stuff (Still have to update comments on axidraw code)
 def GoPlot(port, run):
@@ -346,26 +360,42 @@ def GoPlot(port, run):
 
 def continuous():
     global count
+    global current_week_value
+    global start_at
+    global todays_value
+    global template_count
     global current_count
-    for x in range(235): # change the number in the range function to change how many times it runs through
-        count += 1
+    for x in range(125): # change the number in the range function to change how many times it runs through
         # Setting up plot 1
         # home position and clear
-        home()
-        # # Pick up from stack 1
-        pickup1(0.42*count)
-        # # Place at plotter 1
-        place1()
+        # home()
+        # Pick up from stack 1
+        # pickup1(0.52*count, count)
+        # Place at plotter 1
+        # place1()
         
+        count += 1
         # Setting up plot 2 
         # home position and clear
         home()
         # Pick up from stack 1
-        pickup2(0.42*count)
+        pickup2(0.48*count)
         # Place at plotter 1
         place2()
+        print(count)
+
+        count += 1
+        home() 
+        pickup2(0.48*count)
+        place1()
+        print(count)
 
         # Begin AxiDraw plotting
+        start_at += 1
+
+        if start_at > template_count:
+            start_at  = 1
+
         current_run = start_at
         for plotter in plotter_ports:
             #print("Current Run: "+str(current_run)+ "; and template count is: "+ str(template_count))
@@ -376,16 +406,20 @@ def continuous():
                 current_run += 1
                 current_count -= 1
 
+            print(current_run)
             threading.Thread(target = GoPlot, args= (plotter,current_run,)).start()
             if current_run == template_count:
                 current_run += 1
                 current_count -= 1
 
-        # # Return to home and wait for AxiDraw to finish plotting
-        home()
-        time.sleep(90)
+            current_week_value += 1
+            todays_value += 1
 
-        # # Remove envelopes and place into boxes
+        # Return to home and wait for AxiDraw to finish plotting
+        home()
+        time.sleep(105)
+
+        # # # Remove envelopes and place into boxes
         removedrop1()
         removedrop2()
 
