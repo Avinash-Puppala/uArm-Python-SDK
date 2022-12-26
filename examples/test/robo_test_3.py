@@ -76,6 +76,7 @@ commandList = sys.argv
 print(commandList) 
 
 # Initialize variables from input commands
+count = 0
 testcommand = commandList[1]
 uport = pod_dict[commandList[2]]['robot']
 current_count = 300
@@ -201,11 +202,12 @@ if current_week_value > template_count:
 else:
     start_at = current_week_value
 
+
 # Functions
 
 # Return to home position and clear thread information
 def home():
-    swift.set_position(x=250, y=0, z=150, speed=1000, wait=True)
+    swift.set_position(x=150, y=0, z=150, speed=50, wait=True)
     swift.flush_cmd()
     swift.set_wrist(90)
 
@@ -227,28 +229,54 @@ def place1():
     swift.set_wrist(54)
     swift.set_position(x=229, y=-30, z=-35, speed=100, wait=True)
     time.sleep(0.5)
-    swift.set_position(x=295, y=-100, z=-45, speed=100, wait=True)
+    swift.set_position(x=315, y=-140, z=-45, speed=100, wait=True)
     time.sleep(0.5)
     swift.set_pump(False)
+    home()
 
 # Pickup an envelope from stack 2
-def pickup2():
-    swift.set_position(x=6, y=215, z=150, speed=100, wait=True)
+def pickup2(count):
+    z_position = 41
+    # choose z value
+    if count > 20 and count <= 40:
+        z_position = 30
+    elif count > 40 and count <= 50:
+        z_position = 20
+    elif count > 50 and count <= 75:
+        z_position = 15
+    elif count > 75 and count <= 85:
+        z_position = 5
+    elif count > 85 and count <= 95:
+        z_position = 0
+    elif count > 95 and count <= 120:
+        z_position = -10
+    elif count > 120 and count <= 135:
+        z_position = -20
+    elif count > 135 and count <= 150:
+        z_position = -25
+    elif count > 150 and count <= 170:
+        z_position = -35
+    elif count > 170 and count <= 185:
+        z_position = -45
+    elif count > 185 and count <= 200:
+        z_position = -55
+
+    swift.set_position(x=6, y=250, z=180, speed=100, wait=True)
     swift.set_wrist(90)
     swift.set_pump(True)
     time.sleep(0.5)
-    swift.set_position(x=6, y=185, z=-50, speed=100, wait=True) # find the incremental z rate change
+    swift.set_position(x=6, y=250, z=z_position, speed=100, wait=True) # find the incremental z rate change
     time.sleep(0.75)
-    swift.set_position(x=6, y=185, z=150, speed=100, wait=True)
+    swift.set_position(x=6, y=250, z=180, speed=100, wait=True)
     time.sleep(1)
     home()
 
 # Place an envelope that has already been picked up using pickup2 at plotter 2
 def place2():
     swift.set_wrist(85)
-    swift.set_position(x=187, y=97, z=-35, speed=100, wait=True)
+    swift.set_position(x=250, y=0, z=-35, speed=100, wait=True)
     time.sleep(0.5)
-    swift.set_position(x=240, y=140, z=-35, speed=100, wait=True)
+    swift.set_position(x=270, y=170, z=-35, speed=100, wait=True)
     time.sleep(0.5)
     swift.set_pump(False)
     home()
@@ -257,51 +285,69 @@ def place2():
 def removedrop1():
     home()
     swift.set_wrist(54)
-    swift.set_position(x=293, y=-110, z=-70, speed=100, wait=True) # change the z value only
+    swift.set_position(x=293, y=-110, z=-55.7, speed=100, wait=True) # change the z value only
     time.sleep(0.5)
     swift.set_pump(True)
     time.sleep(0.5)
-    swift.set_position(x=300, y=-105, z=-45, speed=100, wait=True)
-    swift.set_position(x=229, y=-30, z=-35, speed=100, wait=True)
+    swift.set_position(z=-45)
+    time.sleep(0.5)
+    # swift.set_position(x=300, y=-110, z=-45, speed=100, wait=True)
+    # swift.set_position(x=229, y=-30, z=-35, speed=100, wait=True)
     home()
-    swift.set_position(x=50, y=-180, z=150, speed=1000, wait=True)
+    swift.set_position(x=50, y=-180, z=180, speed=1000, wait=True)
 
-    swift.set_wrist(65)
+    swift.set_wrist(90)
 
     #drop off position
-    swift.set_position(x=50, y=-336, z=120, speed=1000, wait=True)
-    time.sleep(0.5)
+    # swift.set_position(x=50, y=-315, z=140, speed=1000, wait=True)
+    swift.set_position(x=6, y=-255, z=180, speed=1000, wait=True)
+
+    time.sleep(1)
     swift.set_pump(False)
-    time.sleep(0.5)
-    swift.set_position(x=50, y=-180, z=150, speed=1000, wait=True)
-    swift.set_position(x=250, y=0, z=150, speed=1000, wait=True)
+    time.sleep(1)
+    swift.set_position(x=50, y=-180, z=180, speed=1000, wait=True)
+    swift.set_position(x=250, y=180, z=180, speed=1000, wait=True)
     swift.set_wrist(90)
+    home()
 
 
 # Remove envelope from plot 2 and place into box 2
 def removedrop2():
     home()
     swift.set_wrist(94)
-    swift.set_position(x=260, y=150, z=-70, speed=1000, wait=True) # change the z value only
+    swift.set_position(x=240, y=170, z=-56.7, speed=1000, wait=True) # change the z value only
     time.sleep(0.5)
     swift.set_pump(True)
     time.sleep(0.5)
+    swift.set_position(z=-45)
+    time.sleep(0.5)
     swift.set_position(x=260, y=140, z=-45, speed=1000, wait=True)
-    swift.set_position(x=187, y=97, z=-35, speed=100, wait=True)
-    swift.set_position(x=229, y=-30, z=-35, speed=100, wait=True)
+    # swift.set_position(x=260, y=140, z=-45, speed=1000, wait=True)
+    # swift.set_position(x=187, y=97, z=-35, speed=100, wait=True)
+    # swift.set_position(x=229, y=-30, z=-35, speed=100, wait=True)
     home()
-    swift.set_position(x=50, y=180, z=150, speed=1000, wait=True)
+    swift.set_position(x=50, y=180, z=180, speed=1000, wait=True)
 
-    swift.set_wrist(115)
+    swift.set_wrist(110)
 
     #drop off position
-    swift.set_position(x=50, y=336, z=120, speed=1000, wait=True)
+    # swift.set_position(x=50, y=329, z=140, speed=1000, wait=True)
+    swift.set_position(x=6, y=-255, z=180, speed=1000, wait=True)
     time.sleep(0.5)
     swift.set_pump(False)
     time.sleep(0.5)
-    swift.set_position(x=50, y=180, z=150, speed=1000, wait=True)
-    swift.set_position(x=250, y=0, z=150, speed=1000, wait=True)
+    # swift.set_position(x=50, y=180, z=180, speed=1000, wait=True)
+    # swift.set_position(x=250, y=0, z=180, speed=1000, wait=True)
     swift.set_wrist(90)
+    home()
+
+def testing():
+    home()
+    # swift.set_position(x=150,y=0, z= 150, speed=30)
+    # swift.set_position(x=200, y=0, z=100, speed=30)
+    # swift.set_polar(stretch=200, rotation=90, height=150)
+    swift.set_servo_angle(servo_id=0,angle=180)
+    # swift.set_servo_angle(angle=0)
 
 # AxiDraw Stuff (Still have to update comments on axidraw code)
 def GoPlot(port, run):
@@ -330,41 +376,39 @@ def GoPlot(port, run):
 
 
 def continuous():
-    for x in range(50): # change the number in the range function to change how many times it runs through
-        # Setting up plot 1
-        # home position and clear
+
+    global count
+    for x in range(1): # change the number in the range function to change how many times it runs through
+       
+        # Place an envelope at plotter 1 and 2
+        print(f'Count: {count}')
+        count += 1
         home()
-        # Pick up from stack 1
-        pickup1()
-        # Place at plotter 1
-        place1()
-        
-        # Setting up plot 2 
-        # home position and clear
-        home()
-        # Pick up from stack 1
-        pickup2()
-        # Place at plotter 1
+        pickup2(count)
         place2()
+        print(f'Count: {count}')
+        count += 1
+        pickup2(count)
+        place1()
 
-        # Begin AxiDraw plotting
-        current_run = start_at
-        for plotter in plotter_ports:
-            #print("Current Run: "+str(current_run)+ "; and template count is: "+ str(template_count))
-            if current_run > template_count:
-                current_run = 1
-            elif current_run != template_count:
-                current_run += 1
+        # # Begin AxiDraw plotting
+        # current_run = start_at
+        # for plotter in plotter_ports:
+        #     #print("Current Run: "+str(current_run)+ "; and template count is: "+ str(template_count))
+        #     if current_run > template_count:
+        #         current_run = 1
+        #     elif current_run != template_count:
+        #         current_run += 1
 
-            threading.Thread(target = GoPlot, args= (plotter,current_run,)).start()
-            if current_run == template_count:
-                current_run += 1
+        #     threading.Thread(target = GoPlot, args= (plotter,current_run,)).start()
+        #     if current_run == template_count:
+        #         current_run += 1
 
         # Return to home and wait for AxiDraw to finish plotting
         home()
-        time.sleep(90)
+        time.sleep(1)
 
-        # Remove envelopes and place into boxes
+        # # Remove envelopes and place into boxes
         removedrop1()
         removedrop2()
 
@@ -374,5 +418,6 @@ def continuous():
         home()
 
 # Run full setup
-continuous()
+# continuous()
+testing()
 exit()
