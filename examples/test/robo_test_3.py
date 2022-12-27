@@ -50,7 +50,7 @@ site = ""
 
 pod_dict = {
     "pod1": {
-        "robot": "COM18",
+        "robot": "COM26",
         "plotter1": "COM50",
         "plotter2": "COM51",
         "type": "Envelope",
@@ -60,7 +60,7 @@ pod_dict = {
         "numberOfStacks": 2
     },
     "pod2": {
-        "robot": "COM18",
+        "robot": "COM26",
         "plotter1": "COM22",
         "plotter2": "COM26", 
         "type": "Envelope",
@@ -76,7 +76,8 @@ commandList = sys.argv
 print(commandList) 
 
 # Initialize variables from input commands
-count = 0
+count1 = 0
+count2 = 0
 testcommand = commandList[1]
 uport = pod_dict[commandList[2]]['robot']
 current_count = 300
@@ -207,36 +208,73 @@ else:
 
 # Return to home position and clear thread information
 def home():
-    swift.set_position(x=150, y=0, z=150, speed=50, wait=True)
+    swift.set_position(x=250, y=0, z=150, speed=50, wait=True)
+    swift.set_wrist(90)
     swift.flush_cmd()
     swift.set_wrist(90)
 
 # Pickup an envelope from stack 1
-def pickup1():
-    swift.set_position(x=6, y=-215, z=150, speed=100, wait=True)
-    swift.set_position(x=6,y=-230, speed=10000)
+def pickup1(count):
+    # swift.set_position(x=6, y=-215, z=150, speed=100, wait=True)
+    # swift.set_position(x=6,y=-230, speed=10000)
+    # swift.set_wrist(90)
+    # swift.set_pump(True)
+    # time.sleep(0.5)
+    # swift.set_position(x=6, y=-185, z=40, speed=100, wait=True) # find the incremental z rate change
+    # time.sleep(0.75)
+    # swift.set_position(x=6, y=-185, z=170, speed=100, wait=True)
+    # time.sleep(1)
+    # home()
+
+    z_position = 40
+    # choose z value
+    if count > 20 and count <= 40:
+        z_position = 30
+    elif count > 40 and count <= 50:
+        z_position = 20
+    elif count > 50 and count <= 75:
+        z_position = 15
+    elif count > 75 and count <= 85:
+        z_position = 5
+    elif count > 85 and count <= 95:
+        z_position = 0
+    elif count > 95 and count <= 120:
+        z_position = -10
+    elif count > 120 and count <= 135:
+        z_position = -20
+    elif count > 135 and count <= 150:
+        z_position = -25
+    elif count > 150 and count <= 170:
+        z_position = -35
+    elif count > 170 and count <= 185:
+        z_position = -45
+    elif count > 185 and count <= 200:
+        z_position = -55
+
+    swift.set_position(x=6, y=-250, z=180, speed=100, wait=True)
     swift.set_wrist(90)
     swift.set_pump(True)
     time.sleep(0.5)
-    swift.set_position(x=6, y=-185, z=40, speed=100, wait=True) # find the incremental z rate change
+    swift.set_position(x=6, y=-250, z=z_position, speed=100, wait=True) # find the incremental z rate change
     time.sleep(0.75)
-    swift.set_position(x=6, y=-185, z=170, speed=100, wait=True)
+    swift.set_position(x=6, y=-250, z=180, speed=100, wait=True)
     time.sleep(1)
     home()
 
 # Place an envelope that has already been picked up using pickup1 at plotter 1
 def place1():
-    swift.set_wrist(54)
-    swift.set_position(x=229, y=-30, z=-35, speed=100, wait=True)
+    swift.set_servo_angle(servo_id=0, angle=65, speed=50)
     time.sleep(0.5)
-    swift.set_position(x=315, y=-140, z=-45, speed=100, wait=True)
+    swift.set_position(x=310, y=-150, z=-45, speed=100, wait=True)
+    time.sleep(0.5)
+    swift.set_wrist(100)
     time.sleep(0.5)
     swift.set_pump(False)
     home()
 
 # Pickup an envelope from stack 2
 def pickup2(count):
-    z_position = 41
+    z_position = 40
     # choose z value
     if count > 20 and count <= 40:
         z_position = 30
@@ -273,10 +311,12 @@ def pickup2(count):
 
 # Place an envelope that has already been picked up using pickup2 at plotter 2
 def place2():
-    swift.set_wrist(85)
+    # swift.set_wrist(85)
     swift.set_position(x=250, y=0, z=-35, speed=100, wait=True)
     time.sleep(0.5)
-    swift.set_position(x=270, y=170, z=-35, speed=100, wait=True)
+    swift.set_position(x=255, y=150, z=-35, speed=100, wait=True)
+    time.sleep(0.5)
+    swift.set_wrist(85)
     time.sleep(0.5)
     swift.set_pump(False)
     home()
@@ -284,8 +324,11 @@ def place2():
 # Remove envelope from plot 1 and place into box 1
 def removedrop1():
     home()
-    swift.set_wrist(54)
-    swift.set_position(x=293, y=-110, z=-55.7, speed=100, wait=True) # change the z value only
+    swift.set_servo_angle(servo_id=0, angle=65, speed=50)
+    time.sleep(0.5)
+    swift.set_wrist(105)
+    time.sleep(0.5)
+    swift.set_position(x=270, y=-150, z=-58, speed=100, wait=True)
     time.sleep(0.5)
     swift.set_pump(True)
     time.sleep(0.5)
@@ -294,13 +337,12 @@ def removedrop1():
     # swift.set_position(x=300, y=-110, z=-45, speed=100, wait=True)
     # swift.set_position(x=229, y=-30, z=-35, speed=100, wait=True)
     home()
-    swift.set_position(x=50, y=-180, z=180, speed=1000, wait=True)
-
-    swift.set_wrist(90)
+    swift.set_servo_angle(servo_id=0, angle=0, speed=50)
+    time.sleep(0.5)
 
     #drop off position
     # swift.set_position(x=50, y=-315, z=140, speed=1000, wait=True)
-    swift.set_position(x=6, y=-255, z=180, speed=1000, wait=True)
+    swift.set_position(x=6, y=-325, z=140, speed=1000, wait=True)
 
     time.sleep(1)
     swift.set_pump(False)
@@ -314,8 +356,8 @@ def removedrop1():
 # Remove envelope from plot 2 and place into box 2
 def removedrop2():
     home()
-    swift.set_wrist(94)
-    swift.set_position(x=240, y=170, z=-56.7, speed=1000, wait=True) # change the z value only
+    swift.set_wrist(90)
+    swift.set_position(x=210, y=150, z=-58, speed=1000, wait=True) # change the z value only
     time.sleep(0.5)
     swift.set_pump(True)
     time.sleep(0.5)
@@ -326,13 +368,15 @@ def removedrop2():
     # swift.set_position(x=187, y=97, z=-35, speed=100, wait=True)
     # swift.set_position(x=229, y=-30, z=-35, speed=100, wait=True)
     home()
-    swift.set_position(x=50, y=180, z=180, speed=1000, wait=True)
+    # swift.set_position(x=50, y=180, z=180, speed=1000, wait=True)
 
-    swift.set_wrist(110)
+    # swift.set_wrist(110)
 
     #drop off position
     # swift.set_position(x=50, y=329, z=140, speed=1000, wait=True)
-    swift.set_position(x=6, y=-255, z=180, speed=1000, wait=True)
+    swift.set_servo_angle(servo_id=0, angle=180, speed=50)
+    time.sleep(0.5)
+    swift.set_position(x=6, y=325, z=140, speed=1000, wait=True)
     time.sleep(0.5)
     swift.set_pump(False)
     time.sleep(0.5)
@@ -343,11 +387,24 @@ def removedrop2():
 
 def testing():
     home()
-    # swift.set_position(x=150,y=0, z= 150, speed=30)
-    # swift.set_position(x=200, y=0, z=100, speed=30)
-    # swift.set_polar(stretch=200, rotation=90, height=150)
-    swift.set_servo_angle(servo_id=0,angle=180)
-    # swift.set_servo_angle(angle=0)
+    swift.set_position(x=6, y=-250, z=180, speed=100, wait=True)
+    swift.set_wrist(90)
+    swift.set_pump(True)
+    time.sleep(0.5)
+    swift.set_position(x=6, y=-250, z=40, speed=100, wait=True) # find the incremental z rate change
+    time.sleep(0.75)
+    swift.set_position(x=6, y=-250, z=180, speed=100, wait=True)
+    time.sleep(1)
+    home()    
+    swift.set_servo_angle(servo_id=0, angle=65, speed=50)
+    time.sleep(0.5)
+    swift.set_position(x=310, y=-150, z=-45, speed=100, wait=True)
+    time.sleep(0.5)
+    swift.set_wrist(100)
+    time.sleep(0.5)
+    swift.set_pump(False)
+    home()
+    
 
 # AxiDraw Stuff (Still have to update comments on axidraw code)
 def GoPlot(port, run):
@@ -377,38 +434,49 @@ def GoPlot(port, run):
 
 def continuous():
 
-    global count
-    for x in range(1): # change the number in the range function to change how many times it runs through
+    global count1
+    global count2
+    global current_week_value
+    global start_at
+    global todays_value
+    global template_count
+    global current_count
+    for x in range(200): # change the number in the range function to change how many times it runs through
        
-        # Place an envelope at plotter 1 and 2
-        print(f'Count: {count}')
-        count += 1
+        # Place an enveloope at plotter 1
+        print(f'Count: {count1}')
+        count1 += 1
         home()
-        pickup2(count)
-        place2()
-        print(f'Count: {count}')
-        count += 1
-        pickup2(count)
+        pickup1(count1)
         place1()
+        # Place an envelope at plotter 2
+        print(f'Count: {count2}')
+        count2 += 1
+        home()
+        pickup2(count2)
+        place2()
 
-        # # Begin AxiDraw plotting
-        # current_run = start_at
-        # for plotter in plotter_ports:
-        #     #print("Current Run: "+str(current_run)+ "; and template count is: "+ str(template_count))
-        #     if current_run > template_count:
-        #         current_run = 1
-        #     elif current_run != template_count:
-        #         current_run += 1
+        # Begin AxiDraw plotting
+        current_run = start_at
+        for plotter in plotter_ports:
+            #print("Current Run: "+str(current_run)+ "; and template count is: "+ str(template_count))
+            if current_run > template_count:
+                current_run = 1
+                current_count -= 1
+            elif current_run != template_count:
+                current_run += 1
+                current_count -= 1
 
-        #     threading.Thread(target = GoPlot, args= (plotter,current_run,)).start()
-        #     if current_run == template_count:
-        #         current_run += 1
+            threading.Thread(target = GoPlot, args= (plotter,current_run,)).start()
+            if current_run == template_count:
+                current_run += 1
+                current_count -= 1
 
         # Return to home and wait for AxiDraw to finish plotting
         home()
-        time.sleep(1)
+        time.sleep(100)
 
-        # # Remove envelopes and place into boxes
+        # Remove envelopes and place into boxes
         removedrop1()
         removedrop2()
 
@@ -418,6 +486,6 @@ def continuous():
         home()
 
 # Run full setup
-# continuous()
-testing()
+continuous()
+# testing()
 exit()

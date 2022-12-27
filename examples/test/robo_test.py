@@ -45,11 +45,12 @@ print('device info: ')
 print(swift.get_device_info())
 print(swift.port)
 
-current_count = int(sys.argv[4])
+# current_count = int(sys.argv[4])
+current_count = int(0)
 
 stack = "one"
 
-if current_count > 300:
+if current_count > 200:
     stack = "two"
 
 
@@ -139,14 +140,14 @@ def pickup_new_envelope_stack_two(next_step):
     s_count = current_count
 
     y_rate_change = 0.1
-    z_rate_change = 0.57
-    z_start = 90
-    y_start = 215
+    z_rate_change = 0.47
+    z_start = 40
+    y_start = 235
 
     #Tested with a mix of envelope types
     if s_count > 25 and s_count < 100:
-        z_start = 103
-        y_start = 215
+        z_start = 40
+        y_start = 235
     elif s_count > 99 and s_count < 150:
         y_rate_change = 0.15
         z_rate_change = 0.54
@@ -179,19 +180,22 @@ def pickup_new_envelope_stack_two(next_step):
     swift.set_position(x=250, y=0, z=150, speed=1000, wait=True)
     swift.flush_cmd()
 
-    swift.set_position(x=6, y=215, z=150, speed=1000, wait=True)
+    swift.set_position(x=6, y=200, z=150, speed=1000, wait=True)
 
     swift.set_wrist(90)
 
     #adjusting y position for decreasing envelope stack
     swift.set_pump(True)
     time.sleep(0.5)
+    print(f'{y_pos}')
     swift.set_position(x=6, y=y_pos, z=new_envelope_position, speed=100, wait=True)
     swift.set_position(x=6, y=y_pos, z=(new_envelope_position -2), speed=100, wait=True)
     time.sleep(0.75)
     swift.set_position(x=6, y=y_pos, z=150, speed=100, wait=True)
     time.sleep(1)
     swift.set_position(x=3.5, y=230, z=150, speed=1000, wait=True)
+
+    current_count += 1
 
     if next_step == 'hold':
         time.sleep(5)
@@ -346,7 +350,7 @@ def drop_complete_from_home_envelope_stack_two():
 #print("In run robo")
 #print("The place is: " + sys.argv[1])
 #print("The type is: " + sys.argv[2])
-print("The count is: " + str(sys.argv[4]))
+# print("The count is: " + str(sys.argv[4]))
 
 def get_new_envelope():
     if stack == 'two':
@@ -433,9 +437,10 @@ elif sys.argv[1] == "pick2place1":
     exit()
 elif sys.argv[1] == "pick2place2":
     stack = "two"
-    pickup_new_envelope_stack_two("1")
-    time.sleep(1)
-    place_position_two_envelope("1")
+    for x in range(300):
+        pickup_new_envelope_stack_two("1")
+        time.sleep(1)
+        place_position_two_envelope("1")
     exit()
 elif sys.argv[1] == "remove1drop1":
     stack = "one"
@@ -461,6 +466,7 @@ elif sys.argv[1] == "remove2drop2":
     time.sleep(1)
     drop_complete_from_home_envelope_stack_two()
     exit()
+
 
 
 
