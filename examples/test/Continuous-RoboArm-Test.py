@@ -50,9 +50,9 @@ site = ""
 
 pod_dict = {
     "pod1": {
-        "robot": "COM18",
-        "plotter1": "COM4",
-        "plotter2": "COM6",
+        "robot": "COM23",
+        "plotter1": "COM24",
+        "plotter2": "COM5",
         "type": "Envelope",
         "full": 600,
         "half": 100,
@@ -60,9 +60,9 @@ pod_dict = {
         "numberOfStacks": 2
     },
     "pod2": {
-        "robot": "COM18",
-        "plotter1": "COM4",
-        "plotter2": "COM6", 
+        "robot": "COM23",
+        "plotter1": "COM24",
+        "plotter2": "COM5", 
         "type": "Envelope",
         "full": 300,
         "half": 175,
@@ -81,6 +81,8 @@ testcommand = commandList[1]
 uport = pod_dict[commandList[2]]['robot']
 print(str(uport))
 current_count = 300
+plotter1 = pod_dict["pod1"]["plotter1"]
+plotter2 = pod_dict["pod1"]["plotter2"]
 
 # Connect to uarm robot and print device information
 swift = SwiftAPI(port=uport)
@@ -197,11 +199,11 @@ start_at = 1
 if current_week_value == "":
     current_week_value = 0
 
-#determine which templates to plot
-if current_week_value > template_count:
-    start_at = current_week_value % template_count
-else:
-    start_at = current_week_value
+# #determine which templates to plot
+# if current_week_value > template_count:
+#     start_at = current_week_value % template_count
+# else:
+#     start_at = current_week_value
 
 # Functions
 
@@ -241,37 +243,12 @@ def place1():
     swift.set_pump(False)
 
 # Pickup an envelope from stack 2
-def pickup2(count):
+def pickup2(z_change):
     # swift.set_position(x=6, y=215, z=150, speed=100, wait=True)
     # y_position = 255 - y_change
-    # z_position = 60 - z_change
+    z_position = 60 - z_change
     # y2_position = 255 - y2_change
-    z_position = 40
-    # choose z value
-    if count > 20 and count <= 40:
-        z_position = 30
-    elif count > 40 and count <= 50:
-        z_position = 20
-    elif count > 50 and count <= 75:
-        z_position = 15
-    elif count > 75 and count <= 85:
-        z_position = 5
-    elif count > 85 and count <= 95:
-        z_position = 0
-    elif count > 95 and count <= 120:
-        z_position = -10
-    elif count > 120 and count <= 135:
-        z_position = -20
-    elif count > 135 and count <= 150:
-        z_position = -25
-    elif count > 150 and count <= 170:
-        z_position = -35
-    elif count > 170 and count <= 185:
-        z_position = -45
-    elif count > 185 and count <= 200:
-        z_position = -55
-
-    swift.set_position(x=6, y=250,z=180, speed=100, wait=True)
+    swift.set_position(x=6, y=255,z=180, speed=100, wait=True)
     swift.set_wrist(90)
     swift.set_pump(True)
     
@@ -390,6 +367,9 @@ def continuous():
     global todays_value
     global template_count
     global current_count
+    global plotter1
+    global plotter2
+    current_run = start_at
     for x in range(125): # change the number in the range function to change how many times it runs through
         # Setting up plot 1
         # home position and clear
@@ -404,44 +384,42 @@ def continuous():
         # home position and clear
         home()
         # Pick up from stack 1
-        pickup2(count)
+        pickup2(0.48*count)
         # Place at plotter 1
         place2()
         print(count)
 
         count += 1
         home() 
-        pickup2(count)
+        pickup2(0.48*count)
         place1()
         print(count)
 
         # Begin AxiDraw plotting
-        # start_at += 1
-
-        # if start_at > template_count:
-        #     start_at  = 1
-
-        # current_run = start_at
         # for plotter in plotter_ports:
-        #     #print("Current Run: "+str(current_run)+ "; and template count is: "+ str(template_count))
-        #     if current_run > template_count:
-        #         current_run = 1
-        #         current_count -= 1
-        #     elif current_run != template_count:
-        #         current_run += 1
-        #         current_count -= 1
+        #print("Current Run: "+str(current_run)+ "; and template count is: "+ str(template_count))
+        if current_run > template_count:
+            current_run = 1
+            current_count -= 1
+        elif current_run <= template_count:
+            current_run += 1
+            current_count -= 1
+        threading.Thread(target = GoPlot, args= (plotter1,current_run,)).start()
+        
+        if current_run > template_count:
+            current_run = 1
+            current_count -= 1
+        elif current_run <= template_count:
+            current_run += 1
+            current_count -= 1
+        threading.Thread(target = GoPlot, args= (plotter2,current_run,)).start()
 
-        #     threading.Thread(target = GoPlot, args= (plotter,current_run,)).start()
-        #     if current_run == template_count:
-        #         current_run += 1
-        #         current_count -= 1
+        current_week_value += 1
+        todays_value += 1
 
-        #     current_week_value += 1
-        #     todays_value += 1
-
-        # # Return to home and wait for AxiDraw to finish plotting
-        # home()
-        # time.sleep(100)
+        # Return to home and wait for AxiDraw to finish plotting
+        home()
+        time.sleep(100)
 
         # # # Remove envelopes and place into boxes
         removedrop1()
