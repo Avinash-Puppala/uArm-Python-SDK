@@ -50,9 +50,9 @@ site = ""
 
 pod_dict = {
     "pod1": {
-        "robot": "COM26",
-        "plotter1": "COM4",
-        "plotter2": "COM6",
+        "robot": "COM23",
+        "plotter1": "COM24",
+        "plotter2": "COM5",
         "type": "Envelope",
         "full": 600,
         "half": 100,
@@ -60,9 +60,9 @@ pod_dict = {
         "numberOfStacks": 2
     },
     "pod2": {
-        "robot": "COM26",
-        "plotter1": "COM4",
-        "plotter2": "COM6", 
+        "robot": "COM23",
+        "plotter1": "COM24",
+        "plotter2": "COM5", 
         "type": "Envelope",
         "full": 300,
         "half": 175,
@@ -435,7 +435,7 @@ def continuous():
     global plotter1
     global plotter2
     current_run = start_at
-    for x in range(200): # change the number in the range function to change how many times it runs through
+    for x in range(1): # change the number in the range function to change how many times it runs through
        
         # Place an enveloope at plotter 1
         print(f'Count: {count1}')
@@ -450,37 +450,37 @@ def continuous():
         pickup2(count2)
         place2()
 
-        # Begin AxiDraw plotting
-        # for plotter in plotter_ports:
-        # print("Current Run: "+str(current_run)+ "; and template count is: "+ str(template_count))
-        if current_run > template_count:
-            current_run = 1
-            current_count -= 1
-        elif current_run <= template_count:
-            current_run += 1
-            current_count -= 1
-        threading.Thread(target = GoPlot, args= (plotter1,current_run,)).start()
-        if current_run > template_count:
-            current_run = 1
-            current_count -= 1
-        elif current_run <= template_count:
-            current_run += 1
-            current_count -= 1
-        threading.Thread(target = GoPlot, args= (plotter2,current_run,)).start()
-        # GoPlot(plotter1, current_run)
-        # GoPlot(plotter2, current_run)
-
-        # if current_run == template_count:
+        # # Begin AxiDraw plotting
+        # # for plotter in plotter_ports:
+        # # print("Current Run: "+str(current_run)+ "; and template count is: "+ str(template_count))
+        # if current_run > template_count:
+        #     current_run = 1
+        #     current_count -= 1
+        # elif current_run <= template_count:
         #     current_run += 1
         #     current_count -= 1
+        # threading.Thread(target = GoPlot, args= (plotter1,current_run,)).start()
+        # if current_run > template_count:
+        #     current_run = 1
+        #     current_count -= 1
+        # elif current_run <= template_count:
+        #     current_run += 1
+        #     current_count -= 1
+        # threading.Thread(target = GoPlot, args= (plotter2,current_run,)).start()
+        # # GoPlot(plotter1, current_run)
+        # # GoPlot(plotter2, current_run)
+
+        # # if current_run == template_count:
+        # #     current_run += 1
+        # #     current_count -= 1
 
         # Return to home and wait for AxiDraw to finish plotting
         home()
-        time.sleep(100)
+        time.sleep(1)
 
-        # Remove envelopes and place into boxes
-        removedrop1()
-        removedrop2()
+        # # Remove envelopes and place into boxes
+        # removedrop1()
+        # removedrop2()
 
         
         time.sleep(0.5)
