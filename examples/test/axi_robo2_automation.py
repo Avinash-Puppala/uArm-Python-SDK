@@ -246,7 +246,7 @@ def place1():
 def pickup2(z_change):
     # swift.set_position(x=6, y=215, z=150, speed=100, wait=True)
     # y_position = 255 - y_change
-    z_position = 60 - z_change
+    z_position = 66 - z_change
     # y2_position = 255 - y2_change
     swift.set_position(x=6, y=255,z=180, speed=100, wait=True)
     swift.set_wrist(90)
@@ -258,6 +258,13 @@ def pickup2(z_change):
     swift.set_position(z=z_position, speed=100, wait=True)
     time.sleep(0.75)
     # swift.set_position(x=6, y=265, z=180, speed=100, wait=True)
+    wrist_action_position = round(z_position+40)
+    swift.set_position(z=wrist_action_position, speed=100)
+    time.sleep(0.5)
+    print(wrist_action_position)
+    time.sleep(0.5)
+    wristaction()
+    time.sleep(0.5)
     swift.set_position(z=180,speed=100)
     time.sleep(0.5)
     swift.set_position(x=100, y=245, z= 180, speed=100)
@@ -334,6 +341,26 @@ def removedrop2():
     swift.set_wrist(90)
     home()
 
+def wristaction():
+
+    swift.set_wrist(85)
+    time.sleep(0.1)
+    swift.set_wrist(95)
+    time.sleep(0.1)
+    swift.set_wrist(85)
+    time.sleep(0.1)
+    swift.set_wrist(95)
+    time.sleep(0.1)
+    swift.set_wrist(85)
+    time.sleep(0.1)
+    swift.set_wrist(95)
+    time.sleep(0.1)
+    swift.set_wrist(85)
+    time.sleep(0.1)
+    swift.set_wrist(95)
+    time.sleep(0.1)
+    swift.set_wrist(90)
+
 # AxiDraw Stuff (Still have to update comments on axidraw code)
 def GoPlot(port, run):
     #print("Printing to port "+ port)
@@ -370,7 +397,7 @@ def continuous():
     global plotter1
     global plotter2
     current_run = start_at
-    for x in range(125): # change the number in the range function to change how many times it runs through
+    for x in range(115): # change the number in the range function to change how many times it runs through
         # Setting up plot 1
         # home position and clear
         # home()
@@ -430,7 +457,19 @@ def continuous():
         swift.set_pump(False)
         home()
 
+def testing():
+    # home position and clear
+    home()
+    # Pick up from stack 1
+    pickup2(0.48*count)
+
+    # wristaction()
+
+    swift.set_pump(False)
+    home()
+
 # Run full setup
 continuous()
+# testing()
 # swift.set_position(z=-65)
 exit()

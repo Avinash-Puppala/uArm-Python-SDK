@@ -258,6 +258,10 @@ def pickup2(z_change):
     swift.set_position(z=z_position, speed=100, wait=True)
     time.sleep(0.75)
     # swift.set_position(x=6, y=265, z=180, speed=100, wait=True)
+    swift.set_position(z=z_position+5,speed=100)
+    time.sleep(0.5)
+    wristaction()
+    time.sleep(0.5)
     swift.set_position(z=180,speed=100)
     time.sleep(0.5)
     swift.set_position(x=100, y=245, z= 180, speed=100)
@@ -333,6 +337,14 @@ def removedrop2():
     # swift.set_position(x=250, y=0, z=180, speed=1000, wait=True)
     swift.set_wrist(90)
     home()
+
+def wristaction():
+
+    swift.set_wrist(70)
+    swift.set_wrist(120)
+    swift.set_wrist(70)
+    swift.set_wrist(120)
+    swift.set_wrist(90)
 
 # AxiDraw Stuff (Still have to update comments on axidraw code)
 def GoPlot(port, run):
