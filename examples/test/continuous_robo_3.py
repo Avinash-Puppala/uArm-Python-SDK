@@ -246,7 +246,7 @@ def place1():
 def pickup2(z_change):
     # swift.set_position(x=6, y=215, z=150, speed=100, wait=True)
     # y_position = 255 - y_change
-    z_position = 66 - z_change
+    z_position = 67 - z_change
     # y2_position = 255 - y2_change
     swift.set_position(x=6, y=255,z=180, speed=100, wait=True)
     swift.set_wrist(90)
