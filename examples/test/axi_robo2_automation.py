@@ -50,9 +50,9 @@ site = ""
 
 pod_dict = {
     "pod1": {
-        "robot": "COM26",
-        "plotter1": "COM4",
-        "plotter2": "COM6",
+        "robot": "COM25",
+        "plotter1": "COM16",
+        "plotter2": "COM20",
         "type": "Envelope",
         "full": 600,
         "half": 100,
