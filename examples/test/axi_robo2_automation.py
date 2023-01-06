@@ -50,9 +50,9 @@ site = ""
 
 pod_dict = {
     "pod1": {
-        "robot": "COM25",
-        "plotter1": "COM16",
-        "plotter2": "COM20",
+        "robot": "COM26",
+        "plotter1": "COM26",
+        "plotter2": "COM31",
         "type": "Envelope",
         "full": 600,
         "half": 100,
@@ -60,9 +60,9 @@ pod_dict = {
         "numberOfStacks": 2
     },
     "pod2": {
-        "robot": "COM26",
-        "plotter1": "COM4",
-        "plotter2": "COM6", 
+        "robot": "COM28",
+        "plotter1": "COM32",
+        "plotter2": "COM35", 
         "type": "Envelope",
         "full": 300,
         "half": 175,
